@@ -1,6 +1,6 @@
 # Introducción
 
-Pasos para trabajar en R como si se estuviera trabajando en python [ambientes virtuales, archivo de requerimientos, etc].
+Pasos para trabajar en R como si se estuviera trabajando en python [ambientes virtuales, archivo de requerimientos].
 
 ## Importante
 
