@@ -1,3 +1,3 @@
 # Introducción
 
-Conjunto de procedimientos utiles para trabajar con el software R
+Repositorio con pruebas de concepto sobre uso de librerías en el mundo R.
