@@ -8,7 +8,8 @@ library(Robyn)
 library(reticulate)
 # use_virtualenv("/Users/santiagolondono/Documents/Proyectos/Rutilities/RobynHW/poe_project/venv", required = TRUE)
 # use_virtualenv("/Users/santiagolondono/Documents/Proyectos/Rutilities/RobynHW/poe_project/robyn-demo/venv", required = TRUE)
-use_virtualenv("/Users/santlond/Library/Caches/pypoetry/virtualenvs/robyn-demo-VLVXTbaO-py3.9", required = TRUE)
+# use_virtualenv("/Users/santlond/Library/Caches/pypoetry/virtualenvs/robyn-demo-VLVXTbaO-py3.9", required = TRUE)
+use_virtualenv("/Users/santlond/Documents/Per/Rutilities/RobynHW/poe_project/robyn-demo/venv", required = TRUE)
 
 #### Step 1: Load data
 ## Check simulated dataset or load your own dataset
@@ -193,12 +194,14 @@ OutputModels <- robyn_run(
 )
 print(OutputModels)
 
-## Check MOO (multi-objective optimization) convergence plots
-OutputModels$convergence$moo_distrb_plot
-OutputModels$convergence$moo_cloud_plot
-# check convergence rules ?robyn_converge
+# ## Check MOO (multi-objective optimization) convergence plots
+# print('Check MOO (multi-objective optimization) convergence plots ..............')
+# OutputModels$convergence$moo_distrb_plot
+# OutputModels$convergence$moo_cloud_plot
+# # check convergence rules ?robyn_converge
 
 ## Calculate Pareto optimality, cluster and export results and plots. See ?robyn_outputs
+print('Calculate Pareto optimality, cluster and export results and plots. See ?robyn_outputs ..............')
 OutputCollect <- robyn_outputs(
   InputCollect, OutputModels,
   pareto_fronts = 3,
