@@ -7,7 +7,8 @@ library(Robyn)
 # Usar ambiente virtual donde esta la libreria de python nevergrad
 library(reticulate)
 # use_virtualenv("/Users/santiagolondono/Documents/Proyectos/Rutilities/RobynHW/poe_project/venv", required = TRUE)
-use_virtualenv("/Users/santiagolondono/Documents/Proyectos/Rutilities/RobynHW/poe_project/robyn-demo/venv", required = TRUE)
+# use_virtualenv("/Users/santiagolondono/Documents/Proyectos/Rutilities/RobynHW/poe_project/robyn-demo/venv", required = TRUE)
+use_virtualenv("/Users/santlond/Library/Caches/pypoetry/virtualenvs/robyn-demo-VLVXTbaO-py3.9", required = TRUE)
 
 #### Step 1: Load data
 ## Check simulated dataset or load your own dataset
@@ -36,7 +37,7 @@ str(dt_prophet_holidays)
 
 
 # Directory where you want to export results to (will create new folders)
-robyn_object <- "~/Desktop"
+robyn_object <- "/Users/santlond/Documents"
 
 ################################################################
 #### Step 2a: For first time user: Model specification in 4 steps
@@ -184,7 +185,7 @@ print(InputCollect)
 ## Run all trials and iterations. Use ?robyn_run to check parameter definition
 OutputModels <- robyn_run(
   InputCollect = InputCollect, # feed in all model specification
-  cores = 5, # default to max available
+  # cores = 5, # default to max available
   # add_penalty_factor = FALSE, # Untested feature. Use with caution.
   iterations = 2000, # recommended for the dummy dataset
   trials = 1, # recommended for the dummy dataset

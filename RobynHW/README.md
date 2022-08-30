@@ -72,3 +72,5 @@ Error in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y,  :
 Calls: <Anonymous> ... drawDetails -> drawDetails.text -> grid.Call.graphics
 In addition: There were 50 or more warnings (use warnings() to see the first 50)
 Execution halted
+
+El mismo problema se presenta usando MacBookPro, a pesar de eso se evidencia la velocidad de la máquina. MacBookAir 10.52 minutos, MacBookPro 1.52 minutos.
