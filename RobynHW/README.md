@@ -84,3 +84,5 @@ El problema se genera en las siguientes lineas de código:
 OutputModels$convergence$moo_distrb_plot
 OutputModels$convergence$moo_cloud_plot
 ```
+
+4. Seleccionar y guardar cualquier modelo
