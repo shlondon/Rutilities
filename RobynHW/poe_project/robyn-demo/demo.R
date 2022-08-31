@@ -219,3 +219,25 @@ print(OutputCollect)
 # pareto_aggregated.csv, aggregated decomposition per independent variable of all Pareto output
 # pareto_media_transform_matrix.csv, all media transformation vectors
 # pareto_alldecomp_matrix.csv, all decomposition vectors of independent variables
+
+################################################################
+#### Step 4: Select and save the any model
+
+## Compare all model one-pagers and select one that mostly reflects your business reality
+print('Printing OutputCollect Object!!!!!!!!!!!!!!!!!!!!')
+print(OutputCollect)
+select_model <- "1_161_2" # Pick one of the models from OutputCollect to proceed
+
+#### Since 3.7.1: JSON export and import (faster and lighter than RDS files)
+ExportedModel <- robyn_write(InputCollect, OutputCollect, select_model)
+print(ExportedModel)
+
+###### DEPRECATED (<3.7.1) (might work)
+# ExportedModelOld <- robyn_save(
+#   robyn_object = robyn_object, # model object location and name
+#   select_model = select_model, # selected model ID
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect
+# )
+# print(ExportedModelOld)
+# # plot(ExportedModelOld)
