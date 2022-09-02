@@ -86,3 +86,7 @@ OutputModels$convergence$moo_cloud_plot
 ```
 
 4. Seleccionar y guardar cualquier modelo
+
+5. Obtener asignación de presupuesto basada en el modelo seleccionado arriba
+
+Evaluar código QA Optimal Response
