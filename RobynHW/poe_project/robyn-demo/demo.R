@@ -241,3 +241,85 @@ print(ExportedModel)
 # )
 # print(ExportedModelOld)
 # # plot(ExportedModelOld)
+
+################################################################
+#### Step 5: Get budget allocation based on the selected model above
+print("Step 5 ........................................................")
+
+## Budget allocation result requires further validation. Please use this recommendation with caution.
+## Don't interpret budget allocation result if selected model above doesn't meet business expectation.
+
+# Check media summary for selected model
+print(ExportedModel)
+
+# Run ?robyn_allocator to check parameter definition
+# Run the "max_historical_response" scenario: "What's the revenue lift potential with the
+# same historical spend level and what is the spend mix?"
+AllocatorCollect1 <- robyn_allocator(
+  InputCollect = InputCollect,
+  OutputCollect = OutputCollect,
+  select_model = select_model,
+  scenario = "max_historical_response",
+  channel_constr_low = 0.7,
+  channel_constr_up = c(1.2, 1.5, 1.5, 1.5, 1.5),
+  export = TRUE,
+  date_min = "2016-11-21",
+  date_max = "2018-08-20"
+)
+print("AllocatorCollect1 ..............................................")
+print(AllocatorCollect1)
+# plot(AllocatorCollect1)
+
+# Run the "max_response_expected_spend" scenario: "What's the maximum response for a given
+# total spend based on historical saturation and what is the spend mix?" "optmSpendShareUnit"
+# is the optimum spend share.
+AllocatorCollect2 <- robyn_allocator(
+  InputCollect = InputCollect,
+  OutputCollect = OutputCollect,
+  select_model = select_model,
+  scenario = "max_response_expected_spend",
+  channel_constr_low = c(0.7, 0.7, 0.7, 0.7, 0.7),
+  channel_constr_up = c(1.2, 1.5, 1.5, 1.5, 1.5),
+  expected_spend = 1000000, # Total spend to be simulated
+  expected_spend_days = 7, # Duration of expected_spend in days
+  export = TRUE
+)
+print("Printing AllocatorCollect2 ...................")
+print(AllocatorCollect2)
+AllocatorCollect2$dt_optimOut
+# plot(AllocatorCollect2)
+
+## A csv is exported into the folder for further usage. Check schema here:
+## https://github.com/facebookexperimental/Robyn/blob/main/demo/schema.R
+
+## QA optimal response
+print("QA optimal response ..................................")
+# Pick any media variable: InputCollect$all_media
+# select_media <- "search_S"
+select_media <- "tv_S"
+# For paid_media_spends set metric_value as your optimal spend
+metric_value <- AllocatorCollect1$dt_optimOut$optmSpendUnit[
+  AllocatorCollect1$dt_optimOut$channels == select_media
+]; metric_value
+# For paid_media_vars and organic_vars, manually pick a value
+# metric_value <- 10000
+
+if (TRUE) {
+  optimal_response_allocator <- AllocatorCollect1$dt_optimOut$optmResponseUnit[
+    AllocatorCollect1$dt_optimOut$channels == select_media
+  ]
+  optimal_response <- robyn_response(
+    InputCollect = InputCollect,
+    OutputCollect = OutputCollect,
+    select_model = select_model,
+    select_build = 0,
+    media_metric = select_media,
+    metric_value = metric_value
+  )
+  plot(optimal_response$plot)
+  if (length(optimal_response_allocator) > 0) {
+    cat("QA if results from robyn_allocator and robyn_response agree: ")
+    cat(round(optimal_response_allocator) == round(optimal_response$response), "( ")
+    cat(optimal_response$response, "==", optimal_response_allocator, ")\n")
+  }
+}
