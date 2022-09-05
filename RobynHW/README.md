@@ -85,8 +85,34 @@ OutputModels$convergence$moo_distrb_plot
 OutputModels$convergence$moo_cloud_plot
 ```
 
+El error es:
+
+```
+Picking joint bandwidth of 0.0156
+Picking joint bandwidth of 0.00297
+Error in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y,  : 
+  invalid font type
+Calls: <Anonymous> ... drawDetails -> drawDetails.text -> grid.Call.graphics
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+```
+
 4. Seleccionar y guardar cualquier modelo
 
 5. Obtener asignación de presupuesto basada en el modelo seleccionado arriba
 
-Evaluar código QA Optimal Response
+Un error se genera en:
+
+```
+plot(optimal_response$plot)
+```
+
+El error es
+
+```
+Error in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y,  : 
+  invalid font type
+Calls: plot ... drawDetails -> drawDetails.text -> grid.Call.graphics
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+```
