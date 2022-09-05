@@ -297,6 +297,8 @@ print("QA optimal response ..................................")
 # Pick any media variable: InputCollect$all_media
 # select_media <- "search_S"
 select_media <- "tv_S"
+
+print('Printing metric_value')
 # For paid_media_spends set metric_value as your optimal spend
 metric_value <- AllocatorCollect1$dt_optimOut$optmSpendUnit[
   AllocatorCollect1$dt_optimOut$channels == select_media
@@ -305,9 +307,11 @@ metric_value <- AllocatorCollect1$dt_optimOut$optmSpendUnit[
 # metric_value <- 10000
 
 if (TRUE) {
+  print('Getting optimal_response_allocator .........................')
   optimal_response_allocator <- AllocatorCollect1$dt_optimOut$optmResponseUnit[
     AllocatorCollect1$dt_optimOut$channels == select_media
   ]
+  print('Getting optimal_response ...........................')
   optimal_response <- robyn_response(
     InputCollect = InputCollect,
     OutputCollect = OutputCollect,
@@ -316,7 +320,10 @@ if (TRUE) {
     media_metric = select_media,
     metric_value = metric_value
   )
-  plot(optimal_response$plot)
+  # print('ploting optimal_response$plot')
+  # plot(optimal_response$plot)
+  print('Is length optimal_response_allocator greater than 0?')
+  print(length(optimal_response_allocator))
   if (length(optimal_response_allocator) > 0) {
     cat("QA if results from robyn_allocator and robyn_response agree: ")
     cat(round(optimal_response_allocator) == round(optimal_response$response), "( ")
