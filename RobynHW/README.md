@@ -116,3 +116,27 @@ Calls: plot ... drawDetails -> drawDetails.text -> grid.Call.graphics
 In addition: There were 50 or more warnings (use warnings() to see the first 50)
 Execution halted
 ```
+
+6. Actualización Modelo basado en modelo seleccionado y resultados guardados alpha
+
+7. Obtener una recomendación de asignación de presupuesto basada en las ejecuciones de actualización seleccionadas
+
+8. Obtener rendimientos marginales
+
+Se presento el siguiente error.
+
+Un error se genera en:
+
+```
+Response1$plot
+```
+
+El error es
+
+```
+Error in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y,  : 
+  invalid font type
+Calls: <Anonymous> ... drawDetails -> drawDetails.text -> grid.Call.graphics
+In addition: There were 50 or more warnings (use warnings() to see the first 50)
+Execution halted
+```
