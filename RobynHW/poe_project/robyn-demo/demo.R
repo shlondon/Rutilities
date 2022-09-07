@@ -445,4 +445,8 @@ response_sending <- robyn_response(
 )
 print('ROI print_S')
 response_sending$response / sendings * 1000
-# response_sending$plot
+
+
+jpeg('/Users/santlond/Documents/rplot.jpg')
+response_sending$plot
+dev.off()
