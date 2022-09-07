@@ -140,3 +140,10 @@ Calls: <Anonymous> ... drawDetails -> drawDetails.text -> grid.Call.graphics
 In addition: There were 50 or more warnings (use warnings() to see the first 50)
 Execution halted
 ```
+Los anteriores errores sucedían porque estaba corriendo el proyecto en Visual Studio Code, si se corre en Rstudio todo los graficos se crearán. Si quieres evitar los errores en Visual Studio Code debes guardar las gráficas. Un ejemplo sería, se guarda la última gráfica del paso 8:
+
+```
+jpeg('rplot.jpg')
+response_sending$plot
+dev.off()
+```
