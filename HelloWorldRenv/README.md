@@ -18,8 +18,6 @@ Pasos para trabajar en R como si se estuviera trabajando en python [ambientes vi
 
 
 ### Pasos para activar un proyecto
-Usar estos pasos si al momento de correr los script.R de tu proyecto
-surgen problemas con librerías. De lo contrario, correr los script.R del proyecto sin problemas, ya que el ambiente del proyecto tiene las librerías necesarias para hacerlo.
 
 1. Correr [R -e 'renv::restore()']
 2. Trabaja en el proyecto R como siempre los has hecho.
