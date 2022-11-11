@@ -18,13 +18,18 @@ head(dt_simulated_weekly)
 str(dt_simulated_weekly)
 # print(colnames(dt_simulated_weekly))
 
+library('data.table')
+dt_simulated_weekly <- as.data.table(dt_simulated_weekly, TRUE)
+dt_simulated_weekly[, .(.N), by=.(events)]
 
-## Check holidays from Prophet
-# 59 countries included. If your country is not included, please manually add it.
-# Tipp: any events can be added into this table, school break, events etc.
-data("dt_prophet_holidays")
-head(dt_prophet_holidays)
-str(dt_prophet_holidays)
+
+
+# ## Check holidays from Prophet
+# # 59 countries included. If your country is not included, please manually add it.
+# # Tipp: any events can be added into this table, school break, events etc.
+# data("dt_prophet_holidays")
+# head(dt_prophet_holidays)
+# str(dt_prophet_holidays)
 
 # # Unique countries
 # unique(dt_prophet_holidays$country)
@@ -341,112 +346,112 @@ robyn_object <- "/Users/santlond/Documents"
 ## it might be better to rebuild the model. Rule of thumb: 50% of data or less can be new.
 ## 2. new variables are added.
 
-# Provide JSON file with your InputCollect and ExportedModel specifications
-# It can be any model, initial or a refresh model
-json_file <- "/Users/santlond/Documents/Robyn_202209060918_init/RobynModel-1_161_2.json"
-RobynRefresh <- robyn_refresh(
-  json_file = json_file,
-  dt_input = dt_simulated_weekly,
-  dt_holidays = dt_prophet_holidays,
-  refresh_steps = 13,
-  refresh_iters = 1000, # 1k is an estimation
-  refresh_trials = 1
-)
+# # Provide JSON file with your InputCollect and ExportedModel specifications
+# # It can be any model, initial or a refresh model
+# json_file <- "/Users/santlond/Documents/Robyn_202209060918_init/RobynModel-1_161_2.json"
+# RobynRefresh <- robyn_refresh(
+#   json_file = json_file,
+#   dt_input = dt_simulated_weekly,
+#   dt_holidays = dt_prophet_holidays,
+#   refresh_steps = 13,
+#   refresh_iters = 1000, # 1k is an estimation
+#   refresh_trials = 1
+# )
 
-InputCollect <- RobynRefresh$listRefresh1$InputCollect
-OutputCollect <- RobynRefresh$listRefresh1$OutputCollect
-select_model <- RobynRefresh$listRefresh1$OutputCollect$selectID
+# InputCollect <- RobynRefresh$listRefresh1$InputCollect
+# OutputCollect <- RobynRefresh$listRefresh1$OutputCollect
+# select_model <- RobynRefresh$listRefresh1$OutputCollect$selectID
 
-################################################################
-#### Step 7: Get budget allocation recommendation based on selected refresh runs
+# ################################################################
+# #### Step 7: Get budget allocation recommendation based on selected refresh runs
 
-# Run ?robyn_allocator to check parameter definition
-print('Step 7 ...................')
-AllocatorCollect <- robyn_allocator(
-  InputCollect = InputCollect,
-  OutputCollect = OutputCollect,
-  select_model = select_model,
-  scenario = "max_response_expected_spend",
-  channel_constr_low = c(0.7, 0.7, 0.7, 0.7, 0.7),
-  channel_constr_up = c(1.2, 1.5, 1.5, 1.5, 1.5),
-  expected_spend = 2000000, # Total spend to be simulated
-  expected_spend_days = 14 # Duration of expected_spend in days
-)
-print(AllocatorCollect)
+# # Run ?robyn_allocator to check parameter definition
+# print('Step 7 ...................')
+# AllocatorCollect <- robyn_allocator(
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect,
+#   select_model = select_model,
+#   scenario = "max_response_expected_spend",
+#   channel_constr_low = c(0.7, 0.7, 0.7, 0.7, 0.7),
+#   channel_constr_up = c(1.2, 1.5, 1.5, 1.5, 1.5),
+#   expected_spend = 2000000, # Total spend to be simulated
+#   expected_spend_days = 14 # Duration of expected_spend in days
+# )
+# print(AllocatorCollect)
 
-################################################################
-#### Step 8: get marginal returns
+# ################################################################
+# #### Step 8: get marginal returns
 
-## Example of how to get marginal ROI of next 1000$ from the 80k spend level for search channel
+# ## Example of how to get marginal ROI of next 1000$ from the 80k spend level for search channel
 
-# Run ?robyn_response to check parameter definition
+# # Run ?robyn_response to check parameter definition
 
-## -------------------------------- NOTE v3.6.0 CHANGE !!! ---------------------------------- ##
-## The robyn_response() function can now output response for both spends and exposures (imps,
-## GRP, newsletter sendings etc.) as well as plotting individual saturation curves. New
-## argument names "media_metric" and "metric_value" instead of "paid_media_var" and "spend"
-## are now used to accommodate this change. Also the returned output is a list now and
-## contains also the plot.
-## ------------------------------------------------------------------------------------------ ##
+# ## -------------------------------- NOTE v3.6.0 CHANGE !!! ---------------------------------- ##
+# ## The robyn_response() function can now output response for both spends and exposures (imps,
+# ## GRP, newsletter sendings etc.) as well as plotting individual saturation curves. New
+# ## argument names "media_metric" and "metric_value" instead of "paid_media_var" and "spend"
+# ## are now used to accommodate this change. Also the returned output is a list now and
+# ## contains also the plot.
+# ## ------------------------------------------------------------------------------------------ ##
 
-# Get response for 80k from result saved in robyn_object
-Spend1 <- 60000
-Response1 <- robyn_response(
-  InputCollect = InputCollect,
-  OutputCollect = OutputCollect,
-  select_model = select_model,
-  media_metric = "search_S",
-  metric_value = Spend1
-)
-print('ROI for search 60k')
-Response1$response / Spend1 # ROI for search 80k
-# Response1$plot
+# # Get response for 80k from result saved in robyn_object
+# Spend1 <- 60000
+# Response1 <- robyn_response(
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect,
+#   select_model = select_model,
+#   media_metric = "search_S",
+#   metric_value = Spend1
+# )
+# print('ROI for search 60k')
+# Response1$response / Spend1 # ROI for search 80k
+# # Response1$plot
 
-# Get response for +10%
-Spend2 <- Spend1 * 1.1
-Response2 <- robyn_response(
-  InputCollect = InputCollect,
-  OutputCollect = OutputCollect,
-  select_model = select_model,
-  media_metric = "search_S",
-  metric_value = Spend2
-)
-print('ROI for search 61k')
-Response2$response / Spend2 # ROI for search 81k
+# # Get response for +10%
+# Spend2 <- Spend1 * 1.1
+# Response2 <- robyn_response(
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect,
+#   select_model = select_model,
+#   media_metric = "search_S",
+#   metric_value = Spend2
+# )
+# print('ROI for search 61k')
+# Response2$response / Spend2 # ROI for search 81k
 
-print('Marginal ROI of next 1000$ from 80k spend level for search')
-# Marginal ROI of next 1000$ from 80k spend level for search
-(Response2$response - Response1$response) / (Spend2 - Spend1)
+# print('Marginal ROI of next 1000$ from 80k spend level for search')
+# # Marginal ROI of next 1000$ from 80k spend level for search
+# (Response2$response - Response1$response) / (Spend2 - Spend1)
 
-## Example of getting paid media exposure response curves
-print('facebook_S')
-imps <- 50000000
-response_imps <- robyn_response(
-  InputCollect = InputCollect,
-  OutputCollect = OutputCollect,
-  select_model = select_model,
-  media_metric = "facebook_S",
-  metric_value = imps
-)
+# ## Example of getting paid media exposure response curves
+# print('facebook_S')
+# imps <- 50000000
+# response_imps <- robyn_response(
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect,
+#   select_model = select_model,
+#   media_metric = "facebook_S",
+#   metric_value = imps
+# )
 
-print('ROI media exposure facebook_I')
-response_imps$response / imps * 1000
-# response_imps$plot
+# print('ROI media exposure facebook_I')
+# response_imps$response / imps * 1000
+# # response_imps$plot
 
-print('print_S')
-## Example of getting organic media exposure response curves
-sendings <- 30000
-response_sending <- robyn_response(
-  InputCollect = InputCollect,
-  OutputCollect = OutputCollect,
-  select_model = select_model,
-  media_metric = "print_S",
-  metric_value = sendings
-)
-print('ROI print_S')
-response_sending$response / sendings * 1000
+# print('print_S')
+# ## Example of getting organic media exposure response curves
+# sendings <- 30000
+# response_sending <- robyn_response(
+#   InputCollect = InputCollect,
+#   OutputCollect = OutputCollect,
+#   select_model = select_model,
+#   media_metric = "print_S",
+#   metric_value = sendings
+# )
+# print('ROI print_S')
+# response_sending$response / sendings * 1000
 
 
-jpeg('/Users/santlond/Documents/rplot.jpg')
-response_sending$plot
-dev.off()
+# jpeg('/Users/santlond/Documents/rplot.jpg')
+# response_sending$plot
+# dev.off()
