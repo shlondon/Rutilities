@@ -9,13 +9,16 @@ Pasos:
         1. `R -e "install.packages('remotes')"`
         2. `R -e "remotes::install_github('facebookexperimental/Robyn/R')"`
         3. `R -e "library(Robyn)"`
-     
+
 - La librería nevergrad [encargada de realizar la optimización de los hiperparámetros de Robyn] funciona con python 3.9; no funciona correctamente con versiones superiores. Para equipos Mac que tienen versiones de python diferentes, ejecutar en consola
+
     1. `brew install python@3.9` Omitir si ya tiene instalado python 3.9
     2. `python3.9 -m venv venv` 
     3. `source venv/bin/activate`
     4. `git clone REPO-NAME-URL` Clonar este repositorio.
     5. `pip install -r requirements.txt`
+
+*Asegurarse de tener activo el ambiente virtual **venv** antes de correr código Robyn.*
 
 # Preguntas
 
